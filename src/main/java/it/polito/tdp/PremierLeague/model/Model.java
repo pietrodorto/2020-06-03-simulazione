@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
@@ -42,9 +43,11 @@ public class Model {
 		
 			Player player1 = playermMap.get(infoArco.getIdplayer1());
 			Player player2 = playermMap.get(infoArco.getIdplayer2());
-			double peso = infoArco.getDelta();
-			
-			Graphs.addEdgeWithVertices(this.graph, player1 , player2, peso);
+			if(player1!= null && player2!=null) {
+				double peso = infoArco.getDelta();
+				
+				Graphs.addEdgeWithVertices(graph, player1 , player2, peso);
+			}
 			
 		}
 
