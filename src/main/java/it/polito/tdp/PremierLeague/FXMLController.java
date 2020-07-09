@@ -7,7 +7,11 @@ package it.polito.tdp.PremierLeague;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultWeightedEdge;
+
 import it.polito.tdp.PremierLeague.model.Model;
+import it.polito.tdp.PremierLeague.model.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,6 +48,21 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
+    	txtResult.clear();
+    	double goal = 0.0;
+    	try {
+    		goal = Double.parseDouble(txtGoals.getText());
+    		
+    	} catch (Exception e) {
+			txtResult.appendText("Inserire un numero di gol > 0");
+		}
+    		Graph<Player, DefaultWeightedEdge> graph = model.creaGrafo(goal);
+    		
+    		txtResult.appendText("Vertici: "+graph.vertexSet().size()+"\n");
+    		txtResult.appendText("Archi: "+graph.edgeSet().size());
+		
+    	
+    	
 
     }
 
