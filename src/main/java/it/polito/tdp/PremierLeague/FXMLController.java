@@ -5,6 +5,7 @@
 package it.polito.tdp.PremierLeague;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.jgrapht.Graph;
@@ -12,6 +13,7 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 
 import it.polito.tdp.PremierLeague.model.Model;
 import it.polito.tdp.PremierLeague.model.Player;
+import it.polito.tdp.PremierLeague.model.PlayerMinutes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -59,10 +61,7 @@ public class FXMLController {
     		Graph<Player, DefaultWeightedEdge> graph = model.creaGrafo(goal);
     		
     		txtResult.appendText("Vertici: "+graph.vertexSet().size()+"\n");
-    		txtResult.appendText("Archi: "+graph.edgeSet().size());
-		
-    	
-    	
+    		txtResult.appendText("Archi: "+graph.edgeSet().size()+"\n");
 
     }
 
@@ -74,6 +73,12 @@ public class FXMLController {
     @FXML
     void doTopPlayer(ActionEvent event) {
 
+    	
+    	List<PlayerMinutes> viciniList = model.trovaVicini();
+    	
+    	for(PlayerMinutes playerMinutes : viciniList) {
+    		txtResult.appendText(playerMinutes.getPlayer().getName()+" "+playerMinutes.getMinuti());
+    	}
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

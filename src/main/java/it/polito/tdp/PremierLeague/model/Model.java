@@ -1,5 +1,7 @@
 package it.polito.tdp.PremierLeague.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -17,6 +19,7 @@ public class Model {
 	Graph<Player, DefaultWeightedEdge> graph ;
 	PremierLeagueDAO dao;
 	TreeMap<Integer, Player> playermMap;
+	Player topPlayer;
 	
 	public Model() {
 		
@@ -43,15 +46,52 @@ public class Model {
 		
 			Player player1 = playermMap.get(infoArco.getIdplayer1());
 			Player player2 = playermMap.get(infoArco.getIdplayer2());
-			if(player1!= null && player2!=null) {
-				double peso = infoArco.getDelta();
+			double peso = infoArco.getDelta();
+			
+			if(graph.containsVertex(player1) && graph.containsVertex(player2)) {
+				new PlayerMinutes(player1, infoArco.getMinplayer1());
+				new PlayerMinutes(player2, infoArco.getMinplayer2());
 				
 				Graphs.addEdgeWithVertices(graph, player1 , player2, peso);
-			}
-			
+			}		
 		}
-
 		return this.graph;
+	}
+
+	public void trovaTopPlayer() {
+		
+		List<Player> list = new LinkedList<Player>();
+
+		int numvicini = 0;
+		
+		for(Player player: graph.vertexSet()) {
+			if(graph.outDegreeOf(player)>numvicini) {
+				list= Graphs.neighborListOf(this.graph,player);
+				numvicini = list.size();
+				topPlayer=this.playermMap.get(player.getPlayerID());
+			}	
+		}
+		
+	}
+	
+	public List<PlayerMinutes> trovaVicini(){
+		
+		 this.trovaTopPlayer();
+		
+		 List<PlayerMinutes> result = new ArrayList<>() ;
+				
+				List<Player> vicini = Graphs.neighborListOf(this.graph, topPlayer) ;
+				
+				for(Player v: vicini) {
+					System.out.println(topPlayer);
+					System.out.println(v);
+			//		double minuti =  this.graph.getEdgeWeight(this.graph.getEdge(topPlayer, v)) ;
+			//		result.add(new PlayerMinutes(v, minuti)) ;
+				}
+				
+				Collections.sort(result);
+				
+				return result ;
 	}
 
 }
